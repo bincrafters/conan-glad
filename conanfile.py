@@ -9,7 +9,7 @@ import os
 class LibnameConan(ConanFile):
     name = "glad"
     version = "0.1.16a0"
-    url = "https://github.com/bincrafters/conan-glad"
+    url = "https://github.com/p-groarke/conan-glad"
     description = "Multi-Language GL/GLES/EGL/GLX/WGL Loader-Generator based on the official specs."
 
     # Indicates License type of the packaged library
@@ -27,10 +27,10 @@ class LibnameConan(ConanFile):
 
     options = {
         "profile": ["compatibility", "core"], # OpenGL profile.
-        "api_type": "ANY", # API type like "gl,gles"
-        "api_version": "ANY", # API versionlike "3.2,4.1", no version means latest
+        "api_type": "ANY", # API type like "gl, gles"
+        "api_version": "ANY", # API version like "3.2, 4.1", no version means latest
         "extensions": "ANY", # Path to extensions file or comma separated list of extensions, if missing all extensions are included
-        "spec": ["gl","egl","glx","wgl"], # Name of the spec
+        "spec": ["gl", "egl", "glx", "wgl"], # Name of the spec
         "no_loader": [True, False] # No loader
     }
 

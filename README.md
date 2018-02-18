@@ -1,8 +1,9 @@
 ## Package Status
 
-| Bintray | Windows | Linux & macOS | 
+| Bintray | Windows | Linux & macOS |
 |:--------:|:---------:|:-----------------:|
-|BINTRAY_BADGE_URL|APPVEYOR_BADGE_URL|TRAVIS_BADGE_URL|
+|[![Download](https://api.bintray.com/packages/p-groarke/conan-public/glad%3Ap-groarke/images/download.svg) ](https://bintray.com/p-groarke/conan-public/glad%3Ap-groarke/_latestVersion)|[![Build status](https://ci.appveyor.com/api/projects/status/7qfjrhkscs2tv6kj/branch/testing/0.1.16a0?svg=true)](https://ci.appveyor.com/project/Socapex/conan-glad/branch/testing/0.1.16a0)
+|[![Build Status](https://travis-ci.org/p-groarke/conan-glad.svg?branch=testing%2F0.1.16a0)](https://travis-ci.org/p-groarke/conan-glad)|
 
 ## Conan.io Information
 
@@ -43,3 +44,40 @@ The contents of this GIT repository are completely separate from the software be
 ### License for Bincrafters recipe:
 
     ~/.conan/data/<pkg_name>/<pkg_version>/bincrafters/export/LICENSE.md
+
+## Glad Options
+
+Note: the api option has been seperated in 2, api_type and api_version. This fixes option parsing in python.
+
+```
+profile = compatibility
+    OpenGL profile { compatibility, core }
+api_type = gl
+    API type like "gl,gles,..."
+api_version = 3.2
+    API version like "3.2, 4.1", no version means latest
+extensions =
+    Path to extensions file or comma separated list of extensions, if missing all extensions are included
+spec = gl
+    Name of the spec { gl, egl, glx, wgl }
+no_loader = False
+    No loader { True, False }
+```
+
+## Example
+
+A conanfile.txt example.
+
+```
+[requires]
+glad/0.1.16a0@p-groarke/testing
+
+...
+
+[options]
+glad:profile=compatibility
+glad:api_type=gl
+glad:api_version=4.1
+glad:spec=gl
+glad:no_loader=False
+```
