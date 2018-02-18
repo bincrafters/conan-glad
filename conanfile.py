@@ -47,8 +47,6 @@ class LibnameConan(ConanFile):
     source_subfolder = "source_subfolder"
     build_subfolder = "build_subfolder"
 
-    # requires = ()
-
     def source(self):
         source_url = "https://github.com/Dav1dde/glad"
         tools.get("{0}/archive/v{1}.tar.gz".format(source_url, self.version))
@@ -73,16 +71,6 @@ class LibnameConan(ConanFile):
         cmake.install()
 
     def package(self):
-        # If the CMakeLists.txt has a proper install method, the steps below may be redundant
-        # If so, you can replace all the steps below with the word "pass"
-        # include_folder = os.path.join(self.source_subfolder, "include")
-        # self.copy(pattern="LICENSE", dst="license", src=self.source_subfolder)
-        # self.copy(pattern="*", dst="include", src=include_folder)
-        # self.copy(pattern="*.dll", dst="bin", keep_path=False)
-        # self.copy(pattern="*.lib", dst="lib", keep_path=False)
-        # self.copy(pattern="*.a", dst="lib", keep_path=False)
-        # self.copy(pattern="*.so*", dst="lib", keep_path=False)
-        # self.copy(pattern="*.dylib", dst="lib", keep_path=False)
         pass
 
     def package_info(self):
