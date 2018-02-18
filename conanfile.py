@@ -63,7 +63,12 @@ class LibnameConan(ConanFile):
         cmake.definitions["GLAD_EXTENSIONS"] = self.options.extensions
         cmake.definitions["GLAD_SPEC"] = self.options.spec
         cmake.definitions["GLAD_NO_LOADER"] = self.options.no_loader
-        cmake.definitions["GLAD_GENERATOR"] = "c"
+
+        if self.settings.build_type == "Release":
+            cmake.definitions["GLAD_GENERATOR"] = "c"
+        else:
+            cmake.definitions["GLAD_GENERATOR"] = "c-debug"
+
         cmake.definitions["GLAD_EXPORT"] = True
         cmake.definitions["GLAD_INSTALL"] = True
         cmake.configure(build_folder=self.build_subfolder)
