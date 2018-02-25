@@ -26,6 +26,8 @@ class LibnameConan(ConanFile):
     settings = "os", "arch", "compiler", "build_type"
 
     options = {
+        "shared": [True, False],
+        "fPIC": [True, False],
         "profile": ["compatibility", "core"], # OpenGL profile.
         "api_type": "ANY", # API type like "gl, gles"
         "api_version": "ANY", # API version like "3.2, 4.1", no version means latest
@@ -35,6 +37,8 @@ class LibnameConan(ConanFile):
     }
 
     default_options = (
+        "shared=False",
+        "fPIC=True",
         "profile=compatibility",
         "api_type=gl",
         "api_version=3.2",
@@ -58,6 +62,9 @@ class LibnameConan(ConanFile):
 
     def build(self):
         cmake = CMake(self)
+        if self.settings.compiler != 'Visual Studio':
+            cmake.definitions['CMAKE_POSITION_INDEPENDENT_CODE'] = self.options.fPIC
+
         cmake.definitions["GLAD_PROFILE"] = self.options.profile
         cmake.definitions["GLAD_API"] = "%s=%s" % (self.options.api_type, self.options.api_version)
         cmake.definitions["GLAD_EXTENSIONS"] = self.options.extensions
