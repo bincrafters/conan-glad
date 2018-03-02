@@ -102,3 +102,5 @@ index 004a2a9..bd87433 100644
 
     def package_info(self):
         self.cpp_info.libs = tools.collect_libs(self)
+        if self.settings.os == "Linux":
+            self.cpp_info.libs.append("dl")
