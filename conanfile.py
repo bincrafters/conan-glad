@@ -19,7 +19,7 @@ class LibnameConan(ConanFile):
     exports = ["LICENSE.md"]
 
     # Remove following lines if the target lib does not use cmake.
-    exports_sources = ["CMakeLists.txt"]
+    exports_sources = ["CMakeLists.txt", "cmake.patch"]
     generators = "cmake"
 
     # Options may need to change depending on the packaged library.
@@ -56,24 +56,11 @@ class LibnameConan(ConanFile):
         tools.get("{0}/archive/v{1}.tar.gz".format(source_url, self.version))
         extracted_dir = self.name + "-" + self.version
 
+        #Temporary patch, fixed in glad master (support shared lib).
+        tools.patch(base_path=extracted_dir, patch_file="cmake.patch")
+
         #Rename to "source_subfolder" is a convention to simplify later steps
         os.rename(extracted_dir, self.source_subfolder)
-        #Temporary patch, fixed in glad master (support shared lib).
-        tools.patch(base_path="source_subfolder", patch_string="""
-diff --git a/CMakeLists.txt b/CMakeLists.txt
-index 004a2a9..bd87433 100644
---- a/CMakeLists.txt
-+++ b/CMakeLists.txt
-@@ -88,5 +88,6 @@ if(GLAD_INSTALL)
-     install(DIRECTORY ${GLAD_INCLUDE_DIRS} DESTINATION ${CMAKE_INSTALL_PREFIX})
-   endif()
-   install(TARGETS glad EXPORT glad-targets
--          ARCHIVE DESTINATION lib)
-+          ARCHIVE DESTINATION lib
-+          LIBRARY DESTINATION lib)
- endif()
-        """)
-
 
     def build(self):
         cmake = CMake(self)
