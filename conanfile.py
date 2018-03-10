@@ -19,7 +19,7 @@ class LibnameConan(ConanFile):
     exports = ["LICENSE.md"]
 
     # Remove following lines if the target lib does not use cmake.
-    exports_sources = ["CMakeLists.txt"]
+    exports_sources = ["CMakeLists.txt", "cmake.patch"]
     generators = "cmake"
 
     # Options may need to change depending on the packaged library.
@@ -56,9 +56,11 @@ class LibnameConan(ConanFile):
         tools.get("{0}/archive/v{1}.tar.gz".format(source_url, self.version))
         extracted_dir = self.name + "-" + self.version
 
+        #Temporary patch, fixed in glad master (support shared lib).
+        tools.patch(base_path=extracted_dir, patch_file="cmake.patch")
+
         #Rename to "source_subfolder" is a convention to simplify later steps
         os.rename(extracted_dir, self.source_subfolder)
-
 
     def build(self):
         cmake = CMake(self)
@@ -87,3 +89,5 @@ class LibnameConan(ConanFile):
 
     def package_info(self):
         self.cpp_info.libs = tools.collect_libs(self)
+        if self.settings.os == "Linux":
+            self.cpp_info.libs.append("dl")
