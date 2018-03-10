@@ -2,7 +2,7 @@
 
 | Bintray | Windows | Linux & macOS |
 |:--------:|:---------:|:-----------------:|
-|[![Download](https://api.bintray.com/packages/p-groarke/conan-public/glad%3Ap-groarke/images/download.svg) ](https://bintray.com/p-groarke/conan-public/glad%3Ap-groarke/_latestVersion)|[![Build status](https://ci.appveyor.com/api/projects/status/7qfjrhkscs2tv6kj/branch/testing/0.1.16a0?svg=true)](https://ci.appveyor.com/project/Socapex/conan-glad/branch/testing/0.1.16a0)|[![Build Status](https://travis-ci.org/p-groarke/conan-glad.svg?branch=testing%2F0.1.16a0)](https://travis-ci.org/p-groarke/conan-glad)|
+|[![Download](https://api.bintray.com/packages/bincrafters/conan-public/glad%3Abincrafters/images/download.svg) ](https://bintray.com/bincrafters/public-conan/glad%3bincrafterse/_latestVersion)|[![Build status](https://ci.appveyor.com/api/projects/status/github/bincrafters/conan-glad?svg=true)](https://ci.appveyor.com/project/bincrafters/conan-glad)|[![Build Status](https://travis-ci.org/bincrafters/conan-glad.svg)](https://travis-ci.org/bincrafters/conan-glad)|
 
 ## Conan.io Information
 
