@@ -1,30 +1,23 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-# vim: tabstop=8 expandtab shiftwidth=4 softtabstop=4
 
 from conans import ConanFile, CMake, tools
 import os
 
 
-class LibnameConan(ConanFile):
+class GladConan(ConanFile):
     name = "glad"
     version = "0.1.16a0"
-    url = "https://github.com/p-groarke/conan-glad"
     description = "Multi-Language GL/GLES/EGL/GLX/WGL Loader-Generator based on the official specs."
-
-    # Indicates License type of the packaged library
+    url = "https://github.com/bincrafters/conan-glad"
+    homepage = "https://github.com/Dav1dde/glad"
     license = "MIT"
-
-    # Packages the license for the conanfile.py
     exports = ["LICENSE.md"]
-
-    # Remove following lines if the target lib does not use cmake.
     exports_sources = ["CMakeLists.txt", "cmake.patch"]
     generators = "cmake"
-
-    # Options may need to change depending on the packaged library.
+    source_subfolder = "source_subfolder"
+    build_subfolder = "build_subfolder"
     settings = "os", "arch", "compiler", "build_type"
-
     options = {
         "shared": [True, False],
         "fPIC": [True, False],
@@ -46,10 +39,6 @@ class LibnameConan(ConanFile):
         "spec=gl",
         "no_loader=False"
     )
-
-    # Custom attributes for Bincrafters recipe conventions
-    source_subfolder = "source_subfolder"
-    build_subfolder = "build_subfolder"
 
     def source(self):
         source_url = "https://github.com/Dav1dde/glad"
@@ -82,11 +71,12 @@ class LibnameConan(ConanFile):
         cmake.definitions["GLAD_INSTALL"] = True
         cmake.configure(build_folder=self.build_subfolder)
         cmake.build()
-        cmake.install()
 
     def package(self):
-        pass
-
+        cmake = CMake(self)
+        cmake.configure(build_folder=self.build_subfolder)
+        cmake.install()
+        
     def package_info(self):
         self.cpp_info.libs = tools.collect_libs(self)
         if self.settings.os == "Linux":
