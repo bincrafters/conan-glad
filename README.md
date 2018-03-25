@@ -69,12 +69,12 @@ A conanfile.txt example.
 
 ```
 [requires]
-glad/0.1.16a0@p-groarke/testing
+glad/0.1.16a0@bincrafters/testing
 
 ...
 
 [options]
-glad:profile=compatibility
+glad:profile=core
 glad:api_type=gl
 glad:api_version=4.1
 glad:spec=gl
