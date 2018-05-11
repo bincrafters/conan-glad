@@ -2,7 +2,18 @@ diff --git a/CMakeLists.txt b/CMakeLists.txt
 index 004a2a9..bd87433 100644
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
-@@ -88,5 +88,6 @@ if(GLAD_INSTALL)
+@@ -76,6 +76,10 @@
+   set_target_properties(glad PROPERTIES LINKER_LANGUAGE ${GLAD_LINKER_LANGUAGE})
+ endif()
+ 
++if(CMAKE_GENERATOR MATCHES "Visual Studio" AND BUILD_SHARED_LIBS)
++    set_target_properties(glad PROPERTIES WINDOWS_EXPORT_ALL_SYMBOLS ON)
++endif()
++
+ # Export
+ if(GLAD_EXPORT)
+   set(GLAD_LIBRARIES glad PARENT_SCOPE)
+@@ -88,5 +92,6 @@ if(GLAD_INSTALL) 
      install(DIRECTORY ${GLAD_INCLUDE_DIRS} DESTINATION ${CMAKE_INSTALL_PREFIX})
    endif()
    install(TARGETS glad EXPORT glad-targets
