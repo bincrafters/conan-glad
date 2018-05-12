@@ -77,12 +77,7 @@ class GladConan(ConanFile):
         cmake.configure(build_folder=self.build_subfolder)
         cmake.install()
         
-        self.copy(pattern="*.a", dst="lib", src=".", keep_path=False)
-        self.copy(pattern="*.lib", dst="lib", src=".", keep_path=False)
         self.copy(pattern="*.dll", dst="bin", src=".", keep_path=False)
-        self.copy(pattern="*.so*", dst="lib", src=".", keep_path=False)
-        self.copy(pattern="*.dylib*", dst="lib", src=".", keep_path=False)
-        self.copy(pattern="*.pdb", dst="bin", src=".", keep_path=False)
         
     def package_info(self):
         self.cpp_info.libs = tools.collect_libs(self)

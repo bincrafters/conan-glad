@@ -6,7 +6,7 @@ index 004a2a9..bd87433 100644
    set_target_properties(glad PROPERTIES LINKER_LANGUAGE ${GLAD_LINKER_LANGUAGE})
  endif()
  
-+if(CMAKE_GENERATOR MATCHES "Visual Studio" AND BUILD_SHARED_LIBS)
++if (MSVC AND BUILD_SHARED_LIBS)
 +    set_target_properties(glad PROPERTIES WINDOWS_EXPORT_ALL_SYMBOLS ON)
 +endif()
 +
