@@ -77,6 +77,8 @@ class GladConan(ConanFile):
         cmake.configure(build_folder=self.build_subfolder)
         cmake.install()
         
+        self.copy(pattern="*.dll", dst="bin", src=".", keep_path=False)
+        
     def package_info(self):
         self.cpp_info.libs = tools.collect_libs(self)
         if self.settings.os == "Linux":
