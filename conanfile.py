@@ -7,13 +7,14 @@ import os
 
 class GladConan(ConanFile):
     name = "glad"
-    version = "0.1.16a0"
+    version = "0.1.24"
     description = "Multi-Language GL/GLES/EGL/GLX/WGL Loader-Generator based on the official specs."
     url = "https://github.com/bincrafters/conan-glad"
     homepage = "https://github.com/Dav1dde/glad"
     license = "MIT"
+    author = "Bincrafters <bincrafters@gmail.com>"
     exports = ["LICENSE.md"]
-    exports_sources = ["CMakeLists.txt", "cmake.patch"]
+    exports_sources = ["CMakeLists.txt"]
     generators = "cmake"
     source_subfolder = "source_subfolder"
     build_subfolder = "build_subfolder"
@@ -40,45 +41,40 @@ class GladConan(ConanFile):
         "no_loader=False"
     )
 
+    def config_options(self):
+        if self.settings.os == "Windows":
+            self.options.remove("fPIC")
+
+    def configure(self):
+        del self.settings.compiler.libcxx
+
     def source(self):
         source_url = "https://github.com/Dav1dde/glad"
         tools.get("{0}/archive/v{1}.tar.gz".format(source_url, self.version))
         extracted_dir = self.name + "-" + self.version
-
-        #Temporary patch, fixed in glad master (support shared lib).
-        tools.patch(base_path=extracted_dir, patch_file="cmake.patch")
-
-        #Rename to "source_subfolder" is a convention to simplify later steps
         os.rename(extracted_dir, self.source_subfolder)
 
-    def build(self):
+    def configure_cmake(self):
         cmake = CMake(self)
-        if self.settings.compiler != 'Visual Studio':
-            cmake.definitions['CMAKE_POSITION_INDEPENDENT_CODE'] = self.options.fPIC
-
         cmake.definitions["GLAD_PROFILE"] = self.options.profile
         cmake.definitions["GLAD_API"] = "%s=%s" % (self.options.api_type, self.options.api_version)
         cmake.definitions["GLAD_EXTENSIONS"] = self.options.extensions
         cmake.definitions["GLAD_SPEC"] = self.options.spec
         cmake.definitions["GLAD_NO_LOADER"] = self.options.no_loader
-
-        if self.settings.build_type == "Release":
-            cmake.definitions["GLAD_GENERATOR"] = "c"
-        else:
-            cmake.definitions["GLAD_GENERATOR"] = "c-debug"
-
+        cmake.definitions["GLAD_GENERATOR"] = "c" if self.settings.build_type == "Release" else "c-debug"
         cmake.definitions["GLAD_EXPORT"] = True
         cmake.definitions["GLAD_INSTALL"] = True
         cmake.configure(build_folder=self.build_subfolder)
+        return cmake
+
+    def build(self):
+        cmake = self.configure_cmake()
         cmake.build()
 
     def package(self):
-        cmake = CMake(self)
-        cmake.configure(build_folder=self.build_subfolder)
+        cmake = self.configure_cmake()
         cmake.install()
-        
-        self.copy(pattern="*.dll", dst="bin", src=".", keep_path=False)
-        
+
     def package_info(self):
         self.cpp_info.libs = tools.collect_libs(self)
         if self.settings.os == "Linux":
