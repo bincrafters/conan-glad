@@ -36,7 +36,7 @@ class GladConan(ConanFile):
         "profile=compatibility",
         "api_type=gl",
         "api_version=3.2",
-        "extensions=",
+        "extensions=''",
         "spec=gl",
         "no_loader=False"
     )
