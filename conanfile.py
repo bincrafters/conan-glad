@@ -7,7 +7,7 @@ import os
 
 class GladConan(ConanFile):
     name = "glad"
-    version = "0.1.24"
+    version = "0.1.29"
     description = "Multi-Language GL/GLES/EGL/GLX/WGL Loader-Generator based on the official specs."
     url = "https://github.com/bincrafters/conan-glad"
     homepage = "https://github.com/Dav1dde/glad"
