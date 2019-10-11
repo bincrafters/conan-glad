@@ -1,6 +1,3 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
-
 from conans import ConanFile, CMake, tools
 import os
 
@@ -16,8 +13,8 @@ class GladConan(ConanFile):
     exports = ["LICENSE.md"]
     exports_sources = ["CMakeLists.txt"]
     generators = "cmake"
-    source_subfolder = "source_subfolder"
-    build_subfolder = "build_subfolder"
+    _source_subfolder = "source_subfolder"
+    _build_subfolder = "build_subfolder"
     settings = "os", "arch", "compiler", "build_type"
     options = {
         "shared": [True, False],
@@ -30,16 +27,7 @@ class GladConan(ConanFile):
         "no_loader": [True, False] # No loader
     }
 
-    default_options = (
-        "shared=False",
-        "fPIC=True",
-        "profile=compatibility",
-        "api_type=gl",
-        "api_version=3.2",
-        "extensions=''",
-        "spec=gl",
-        "no_loader=False"
-    )
+    default_options = {'shared': False, 'fPIC': True, 'profile': 'compatibility', 'api_type': 'gl', 'api_version': '3.2', 'extensions': "''", 'spec': 'gl', 'no_loader': False}
 
     def config_options(self):
         if self.settings.os == "Windows":
@@ -47,14 +35,15 @@ class GladConan(ConanFile):
 
     def configure(self):
         del self.settings.compiler.libcxx
+        del self.settings.compiler.cppstd
 
     def source(self):
         source_url = "https://github.com/Dav1dde/glad"
         tools.get("{0}/archive/v{1}.tar.gz".format(source_url, self.version))
         extracted_dir = self.name + "-" + self.version
-        os.rename(extracted_dir, self.source_subfolder)
+        os.rename(extracted_dir, self._source_subfolder)
 
-    def configure_cmake(self):
+    def _configure_cmake(self):
         cmake = CMake(self)
         cmake.definitions["GLAD_PROFILE"] = self.options.profile
         cmake.definitions["GLAD_API"] = "%s=%s" % (self.options.api_type, self.options.api_version)
@@ -64,15 +53,15 @@ class GladConan(ConanFile):
         cmake.definitions["GLAD_GENERATOR"] = "c" if self.settings.build_type == "Release" else "c-debug"
         cmake.definitions["GLAD_EXPORT"] = True
         cmake.definitions["GLAD_INSTALL"] = True
-        cmake.configure(build_folder=self.build_subfolder)
+        cmake.configure(build_folder=self._build_subfolder)
         return cmake
 
     def build(self):
-        cmake = self.configure_cmake()
+        cmake = self._configure_cmake()
         cmake.build()
 
     def package(self):
-        cmake = self.configure_cmake()
+        cmake = self._configure_cmake()
         cmake.install()
 
     def package_info(self):
