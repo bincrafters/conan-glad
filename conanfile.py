@@ -9,7 +9,6 @@ class GladConan(ConanFile):
     url = "https://github.com/bincrafters/conan-glad"
     homepage = "https://github.com/Dav1dde/glad"
     license = "MIT"
-    author = "Bincrafters <bincrafters@gmail.com>"
     exports = ["LICENSE.md"]
     exports_sources = ["CMakeLists.txt"]
     generators = "cmake"
